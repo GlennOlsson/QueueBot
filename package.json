@@ -4,7 +4,8 @@
   "description": "Use to automatically join a queue on the kth queue system",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/GlennOlsson/QueueBot/issues"
   },
-  "homepage": "https://github.com/GlennOlsson/QueueBot#readme"
+  "homepage": "https://github.com/GlennOlsson/QueueBot#readme",
+  "dependencies": {
+    "ws": "^6.1.0"
+  }
 }
