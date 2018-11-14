@@ -29,8 +29,8 @@ const ws = new WebSocket('ws://queue.csc.kth.se/socket.io/?EIO=3&transport=webso
 
 ws.on('open', function open() {
     console.log("OPEN")
-    ws.send('probe');
-    ws.emit('probe');
+    ws.send('2probe');
+    ws.emit('2probe');
     ws.emit('listen', 'INDA');
   });
   
@@ -39,7 +39,7 @@ ws.on('msg', function incoming(data) {
     console.log(data);
 });
 
-ws.on('probe', function incoming(data) {
+ws.on('3probe', function incoming(data) {
     console.log("PROBE:")
     console.log(data);
     ws.emit("5")
