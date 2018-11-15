@@ -1,5 +1,6 @@
 const WebSocket = require('ws');
 var http = require("http");
+var io = require('socket.io-client')
 
 GET((data) => {
     data = data.substring(5)
@@ -11,26 +12,27 @@ GET((data) => {
 
 const time = new Date().getTime()
 
-const ws = new WebSocket('ws://queue.csc.kth.se/socket.io/?EIO=3&transport=websocket&sid=' + sid, [], {
-        'headers' : {
-            "Cookie": "io=" + sid + "; "
-            + "__utma=208713933.1600763072.1499939648.1501619977.1501624913.2; "
-            + "AMCV_4D6368F454EC41940A4C98A6%40AdobeOrg=2096510701%7CMCIDTS%7C17416%7CMCMID%7C17531102242428657013954678375240293606%7CMCAAMLH-1505293038%7C6%7CMCAAMB-1505293038%7CNRX38WO0n5BH8Th-nqAG_A%7CMCOPTOUT-1504695438s%7CNONE%7CMCAID%7CNONE%7CMCSYNCSOP%7C411-17423%7CvVersion%7C2.0.0; "
-            + "s_pers=%20v8%3D1504688284328%7C1599296284328%3B%20v8_s%3DFirst%2520Visit%7C1504690084328%3B%20c19%3Dsd%253Aproduct%253Ajournal%253Aarticle%7C1504690084334%3B%20v68%3D1504688284793%7C1504690084342%3B; "
-            + "AMCV_774C31DD5342CAF40A490D44%40AdobeOrg=793872103%7CMCIDTS%7C17422%7CMCMID%7C17520116692012069033955847290166940852%7CMCAAMLH-1505808309%7C6%7CMCAAMB-1505808309%7CNRX38WO0n5BH8Th-nqAG_A%7CMCAID%7CNONE; "
-            + "_ga=GA1.2.1600763072.1499939648; "
-            + "connect.sid=s%3AzvYwmuwB3MKgocZH3mZ2fCfhqEfXqMSC.BKyvYhkmXG6cZyPNQfxjY4CpnD4AhNo893eom%2FsIIzc; "
-            + "SSO_SESSION_START=" + time,
+const ws = io('ws://queue.csc.kth.se/socket.io/')
 
-        }
-    });
+// const ws = new WebSocket('ws://queue.csc.kth.se/socket.io/?EIO=3&transport=websocket&sid=' + sid, [], {
+//         'headers' : {
+//             "Cookie": "io=" + sid + "; "
+//             + "__utma=208713933.1600763072.1499939648.1501619977.1501624913.2; "
+//             + "AMCV_4D6368F454EC41940A4C98A6%40AdobeOrg=2096510701%7CMCIDTS%7C17416%7CMCMID%7C17531102242428657013954678375240293606%7CMCAAMLH-1505293038%7C6%7CMCAAMB-1505293038%7CNRX38WO0n5BH8Th-nqAG_A%7CMCOPTOUT-1504695438s%7CNONE%7CMCAID%7CNONE%7CMCSYNCSOP%7C411-17423%7CvVersion%7C2.0.0; "
+//             + "s_pers=%20v8%3D1504688284328%7C1599296284328%3B%20v8_s%3DFirst%2520Visit%7C1504690084328%3B%20c19%3Dsd%253Aproduct%253Ajournal%253Aarticle%7C1504690084334%3B%20v68%3D1504688284793%7C1504690084342%3B; "
+//             + "AMCV_774C31DD5342CAF40A490D44%40AdobeOrg=793872103%7CMCIDTS%7C17422%7CMCMID%7C17520116692012069033955847290166940852%7CMCAAMLH-1505808309%7C6%7CMCAAMB-1505808309%7CNRX38WO0n5BH8Th-nqAG_A%7CMCAID%7CNONE; "
+//             + "_ga=GA1.2.1600763072.1499939648; "
+//             + "connect.sid=s%3AzvYwmuwB3MKgocZH3mZ2fCfhqEfXqMSC.BKyvYhkmXG6cZyPNQfxjY4CpnD4AhNo893eom%2FsIIzc; "
+//             + "SSO_SESSION_START=" + time,
+
+//         }
+//     });
 // const ws = new WebSocket("wss://echo.websocket.org/")
 
 
 ws.on('open', function open() {
     console.log("OPEN")
     ws.emit('probe');
-    ws.emit('listen', 'INDA');
   });
   
 ws.on('msg', function incoming(data) {
@@ -41,13 +43,7 @@ ws.on('msg', function incoming(data) {
 ws.on('probe', function incoming(data) {
     console.log("PROBE:")
     console.log(data);
-});
-
-ws.on('3probe', function incoming(data) {
-    console.log("PROBE:")
-    console.log(data);
-    ws.emit("5")
-    ws.send("5")
+    ws.emit('listen', 'INDA');
 });
 
 ws.on("close", () => {
