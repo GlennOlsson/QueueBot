@@ -1,4 +1,4 @@
-var http = require("http");
+
 
 exports.GET = function(){
 

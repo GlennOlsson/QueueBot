@@ -21,19 +21,7 @@
     var loggedIn = false;
 
     function updateUserData() {
-      $http.get('/API/userData').success(function(response) {
-        username = response.username;
-        ugKthid = response.ugKthid;
-        realname = response.realname;
-        admin = response.admin;
-        teacher = response.teacher;
-        assistant = response.assistant;
-        location = response.location;
-        loggedIn = false;
-        if(username){
-          loggedIn = true;
-        }
-      });
+      
     }
 
     updateUserData();
@@ -124,7 +112,9 @@
 
   .factory('WebSocketService', function($rootScope) {
 
-    var socket = io.connect();
+    console.log("CONNECTING")
+
+    var socket = io.connect("http://queue.csc.kth.se/socket.io/");
     return {
       on: function(eventName, callback) {
         socket.removeAllListeners(eventName);
@@ -164,16 +154,16 @@
     };
   })
 
-    .factory('HttpService', function($http) {
-        return {
-            post: function(path, data, callback){
-                $http.post('/API/' + path, data, {withCredentials: true}).success(callback);
-            },
-            get: function(path, callback){
-                $http.get('/API/' + path).success(callback);
-            }
-        };
-    })
+  .factory('HttpService', function($http) {
+      return {
+          post: function(path, data, callback){
+              $http.post('/API/' + path, data, {withCredentials: true}).success(callback);
+          },
+          get: function(path, callback){
+              $http.get('/API/' + path).success(callback);
+          }
+      };
+  })
 
   .factory('UserListService', ['HttpService', 'WebSocketService', '$modal',
     function(http, socket, $modal) {

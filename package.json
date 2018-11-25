@@ -19,6 +19,7 @@
   "homepage": "https://github.com/GlennOlsson/QueueBot#readme",
   "dependencies": {
     "socket.io": "^2.1.1",
+    "socketio-wildcard": "^2.0.0",
     "ws": "^6.1.0"
   }
 }

@@ -2916,6 +2916,7 @@ Request.prototype.create = function(){
     }
 
     debug('xhr data %s', this.data);
+    xhr.setRequestHeader('Origin', 'http://queue.csc.kth.se');
     xhr.send(this.data);
   } catch (e) {
     // Need to defer since .create() is called directly fhrom the constructor

@@ -1,6 +1,7 @@
 const WebSocket = require('ws');
 var http = require("http");
 var io = require('socket.io-client')
+var patch = require('socketio-wildcard')(io.Manager);
 
 GET((data) => {
     data = data.substring(5)
@@ -12,7 +13,16 @@ GET((data) => {
 
 const time = new Date().getTime()
 
-const ws = io('ws://queue.csc.kth.se/socket.io/')
+const ws = io.connect('http://queue.csc.kth.se/socket.io/')
+
+
+ws.on('connect', function (socket) {
+    console.log('Connected!');
+});
+patch(ws);
+
+console.log("OPEN?? " + ws.nsp)
+console.log(ws.io)
 
 // const ws = new WebSocket('ws://queue.csc.kth.se/socket.io/?EIO=3&transport=websocket&sid=' + sid, [], {
 //         'headers' : {
@@ -28,6 +38,13 @@ const ws = io('ws://queue.csc.kth.se/socket.io/')
 //         }
 //     });
 // const ws = new WebSocket("wss://echo.websocket.org/")
+
+ws.emit('probe');
+
+ws.on("*",function(event,data) {
+    console.log(event);
+    console.log(data);
+});
 
 
 ws.on('open', function open() {
@@ -89,6 +106,7 @@ ws.onerror = error => {
   ws.on('unlock', function (){
     console.log("UNLOCKED")
   });
+
 })
 function GET(callback){
     const time = new Date().getTime()
